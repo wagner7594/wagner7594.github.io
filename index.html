@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Página Interactiva</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 50px;
+            background-color: #f0f2f5;
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        #btnSaludar {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #btnCambiarColor {
+            background-color: #2196F3;
+            color: white;
+        }
+        #btnContar {
+            background-color: #FF9800;
+            color: white;
+        }
+        #mensaje {
+            margin-top: 30px;
+            font-size: 24px;
+            min-height: 40px;
+        }
+        .contador {
+            font-size: 48px;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>¡Bienvenido a mi página interactiva!</h1>
+    
+    <div id="mensaje"></div>
+    
+    <button id="btnSaludar">Saludar</button>
+    <button id="btnCambiarColor">Cambiar Color de Fondo</button>
+    <button id="btnContar">Contar Clics</button>
+    
+    <p class="contador" id="contador">0</p>
+
+    <script>
+        // Variables
+        let contadorClics = 0;
+        const mensaje = document.getElementById('mensaje');
+        const contadorElemento = document.getElementById('contador');
+
+        // Botón Saludar
+        document.getElementById('btnSaludar').addEventListener('click', function() {
+            const nombres = ["amigo", "amiga", "persona increíble", "usuario"];
+            const nombreAleatorio = nombres[Math.floor(Math.random() * nombres.length)];
+            mensaje.textContent = `¡Hola, ${nombreAleatorio}! 😊`;
+            mensaje.style.color = "#4CAF50";
+        });
+
+        // Botón Cambiar Color de Fondo
+        document.getElementById('btnCambiarColor').addEventListener('click', function() {
+            const colores = ['#f0f2f5', '#ffebee', '#e3f2fd', '#f3e5f5', '#e8f5e9', '#fff3e0'];
+            const colorAleatorio = colores[Math.floor(Math.random() * colores.length)];
+            document.body.style.backgroundColor = colorAleatorio;
+        });
+
+        // Botón Contar Clics
+        document.getElementById('btnContar').addEventListener('click', function() {
+            contadorClics++;
+            contadorElemento.textContent = contadorClics;
+            
+            // Efecto visual cuando llega a números altos
+            if (contadorClics === 10) {
+                contadorElemento.style.color = "#FF5722";
+                mensaje.textContent = "¡10 clics! ¡Muy bien! 🔥";
+            } else if (contadorClics === 20) {
+                mensaje.textContent = "¡20 clics! Eres imparable 💪";
+            } else if (contadorClics === 50) {
+                mensaje.textContent = "¡50 clics! ¡Increíble! 🏆";
+            }
+        });
+
+        // Mensaje inicial
+        window.onload = function() {
+            mensaje.textContent = "Haz clic en los botones para interactuar 👇";
+        };
+    </script>
+
+</body>
+</html>
