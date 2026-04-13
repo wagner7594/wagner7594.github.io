@@ -1,107 +1,652 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Página Interactiva</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 50px;
-            background-color: #f0f2f5;
-        }
-        h1 {
-            color: #333;
-        }
-        button {
-            padding: 12px 24px;
-            font-size: 18px;
-            margin: 10px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        #btnSaludar {
-            background-color: #4CAF50;
-            color: white;
-        }
-        #btnCambiarColor {
-            background-color: #2196F3;
-            color: white;
-        }
-        #btnContar {
-            background-color: #FF9800;
-            color: white;
-        }
-        #mensaje {
-            margin-top: 30px;
-            font-size: 24px;
-            min-height: 40px;
-        }
-        .contador {
-            font-size: 48px;
-            font-weight: bold;
-            color: #333;
-            margin: 20px 0;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Formulario Interactivo | Experiencia Dinámica</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #e0eafc 0%, #cfdef3 100%);
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Tarjeta principal */
+    .form-card {
+      max-width: 1100px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(2px);
+      border-radius: 2.5rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    /* Encabezado */
+    .form-header {
+      background: #1e2a3e;
+      padding: 1.8rem 2rem;
+      color: white;
+    }
+    .form-header h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .form-header h1::before {
+      content: "✨";
+      font-size: 2rem;
+    }
+    .form-header p {
+      margin-top: 8px;
+      opacity: 0.85;
+      font-weight: 400;
+    }
+
+    /* Contenido del formulario */
+    .form-body {
+      padding: 2rem 2rem 2rem 2rem;
+    }
+
+    /* Grid responsive */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.6rem;
+    }
+
+    /* Grupos de formulario */
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 0.2rem;
+    }
+    .input-group label {
+      font-weight: 600;
+      color: #1f2d3d;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .input-group label i {
+      font-style: normal;
+      font-weight: normal;
+    }
+    input, select, textarea {
+      background: #f9fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 1rem;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      outline: none;
+      color: #0f172a;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+      background: white;
+    }
+    /* rangos y checks */
+    .range-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .range-value {
+      font-weight: 600;
+      background: #eef2ff;
+      padding: 4px 10px;
+      border-radius: 40px;
+      display: inline-block;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+    .checkbox-group, .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 8px;
+    }
+    .checkbox-group label, .radio-group label {
+      font-weight: normal;
+      text-transform: none;
+      gap: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .checkbox-group input, .radio-group input {
+      width: auto;
+      margin-right: 4px;
+      transform: scale(1.05);
+    }
+    fieldset {
+      border: 1px solid #e2e8f0;
+      border-radius: 1.2rem;
+      padding: 1rem 1.2rem;
+      margin: 0.8rem 0 0.6rem;
+    }
+    legend {
+      font-weight: 700;
+      padding: 0 8px;
+      width: auto;
+      color: #1e293b;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 85px;
+    }
+
+    /* botones y mensajes */
+    .actions {
+      margin-top: 2.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      border-top: 1px solid #eef2f6;
+      padding-top: 1.8rem;
+    }
+    button {
+      background: #1e2a3e;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    button:hover {
+      background: #0f172a;
+      transform: scale(0.98);
+    }
+    .btn-reset {
+      background: #64748b;
+    }
+    .btn-reset:hover {
+      background: #475569;
+    }
+    .live-feedback {
+      background: #f1f5f9;
+      padding: 1rem 1.4rem;
+      border-radius: 1.2rem;
+      font-size: 0.9rem;
+      color: #0c4a6e;
+      border-left: 6px solid #3b82f6;
+      margin-top: 1rem;
+      transition: all 0.2s;
+    }
+    .error-message {
+      color: #dc2626;
+      font-size: 0.7rem;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    input.error, select.error, textarea.error {
+      border-color: #dc2626;
+      background-color: #fff5f5;
+    }
+    .toast-msg {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #1f2d3d;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 60px;
+      font-weight: 500;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+    @media (max-width: 680px) {
+      .form-body {
+        padding: 1.5rem;
+      }
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      button {
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <h1>¡Bienvenido a mi página interactiva!</h1>
-    
-    <div id="mensaje"></div>
-    
-    <button id="btnSaludar">Saludar</button>
-    <button id="btnCambiarColor">Cambiar Color de Fondo</button>
-    <button id="btnContar">Contar Clics</button>
-    
-    <p class="contador" id="contador">0</p>
+<div class="form-card" id="appForm">
+  <div class="form-header">
+    <h1>Panel interactivo</h1>
+    <p>Completa todos los campos — validaciones en tiempo real y datos dinámicos</p>
+  </div>
+  <div class="form-body">
+    <form id="dynamicForm" novalidate>
+      <div class="form-grid">
+        <!-- Información básica -->
+        <div class="input-group">
+          <label>📛 Nombre completo</label>
+          <input type="text" id="fullName" placeholder="Ej: Ana García" autocomplete="off">
+          <div class="error-message" id="nameError"></div>
+        </div>
 
-    <script>
-        // Variables
-        let contadorClics = 0;
-        const mensaje = document.getElementById('mensaje');
-        const contadorElemento = document.getElementById('contador');
+        <div class="input-group">
+          <label>✉️ Correo electrónico</label>
+          <input type="email" id="email" placeholder="usuario@ejemplo.com">
+          <div class="error-message" id="emailError"></div>
+        </div>
 
-        // Botón Saludar
-        document.getElementById('btnSaludar').addEventListener('click', function() {
-            const nombres = ["amigo", "amiga", "persona increíble", "usuario"];
-            const nombreAleatorio = nombres[Math.floor(Math.random() * nombres.length)];
-            mensaje.textContent = `¡Hola, ${nombreAleatorio}! 😊`;
-            mensaje.style.color = "#4CAF50";
-        });
+        <div class="input-group">
+          <label>📞 Teléfono (opcional)</label>
+          <input type="tel" id="phone" placeholder="+34 600 000 000">
+        </div>
 
-        // Botón Cambiar Color de Fondo
-        document.getElementById('btnCambiarColor').addEventListener('click', function() {
-            const colores = ['#f0f2f5', '#ffebee', '#e3f2fd', '#f3e5f5', '#e8f5e9', '#fff3e0'];
-            const colorAleatorio = colores[Math.floor(Math.random() * colores.length)];
-            document.body.style.backgroundColor = colorAleatorio;
-        });
+        <!-- Edad con rango -->
+        <div class="input-group">
+          <label>🎂 Edad</label>
+          <input type="number" id="age" placeholder="18" min="1" max="120">
+          <div class="error-message" id="ageError"></div>
+        </div>
 
-        // Botón Contar Clics
-        document.getElementById('btnContar').addEventListener('click', function() {
-            contadorClics++;
-            contadorElemento.textContent = contadorClics;
-            
-            // Efecto visual cuando llega a números altos
-            if (contadorClics === 10) {
-                contadorElemento.style.color = "#FF5722";
-                mensaje.textContent = "¡10 clics! ¡Muy bien! 🔥";
-            } else if (contadorClics === 20) {
-                mensaje.textContent = "¡20 clics! Eres imparable 💪";
-            } else if (contadorClics === 50) {
-                mensaje.textContent = "¡50 clics! ¡Increíble! 🏆";
-            }
-        });
+        <!-- Selector de país -->
+        <div class="input-group">
+          <label>🌍 País / Región</label>
+          <select id="country">
+            <option value="">-- Selecciona --</option>
+            <option value="ES">España</option>
+            <option value="MX">México</option>
+            <option value="AR">Argentina</option>
+            <option value="CO">Colombia</option>
+            <option value="CL">Chile</option>
+            <option value="PE">Perú</option>
+            <option value="US">Estados Unidos</option>
+            <option value="OTRO">Otro</option>
+          </select>
+          <div class="error-message" id="countryError"></div>
+        </div>
 
-        // Mensaje inicial
-        window.onload = function() {
-            mensaje.textContent = "Haz clic en los botones para interactuar 👇";
-        };
-    </script>
+        <!-- Rango de satisfacción (interactivo) -->
+        <div class="input-group">
+          <label>😊 Nivel de satisfacción</label>
+          <div class="range-container">
+            <input type="range" id="satisfaction" min="0" max="100" value="72">
+            <span id="satisfactionValue" class="range-value">72%</span>
+          </div>
+        </div>
+      </div>
 
+      <!-- Preferencias adicionales: checkboxes múltiples -->
+      <fieldset>
+        <legend>🔘 Intereses / Tecnologías (múltiple opción)</legend>
+        <div class="checkbox-group" id="interestsGroup">
+          <label><input type="checkbox" value="IA"> 🤖 Inteligencia Artificial</label>
+          <label><input type="checkbox" value="Web"> 🌐 Desarrollo Web</label>
+          <label><input type="checkbox" value="Mobile"> 📱 Apps Móviles</label>
+          <label><input type="checkbox" value="Cloud"> ☁️ Cloud Computing</label>
+          <label><input type="checkbox" value="UX"> 🎨 UX/UI Design</label>
+        </div>
+        <div class="error-message" id="interestsError"></div>
+      </fieldset>
+
+      <!-- Radio buttons: método de contacto preferido -->
+      <fieldset>
+        <legend>📬 Preferencia de contacto</legend>
+        <div class="radio-group">
+          <label><input type="radio" name="contactMethod" value="email"> 📧 Email</label>
+          <label><input type="radio" name="contactMethod" value="whatsapp"> 💬 WhatsApp</label>
+          <label><input type="radio" name="contactMethod" value="llamada"> 📞 Llamada telefónica</label>
+          <label><input type="radio" name="contactMethod" value="ninguno"> 🔕 Sin contacto</label>
+        </div>
+      </fieldset>
+
+      <!-- Selector de frecuencia (select con opciones) -->
+      <div class="input-group">
+        <label>⏱️ Frecuencia de comunicación</label>
+        <select id="frequency">
+          <option value="diario">Diaria</option>
+          <option value="semanal" selected>Semanal</option>
+          <option value="quincenal">Quincenal</option>
+          <option value="mensual">Mensual</option>
+        </select>
+      </div>
+
+      <!-- Comentarios -->
+      <div class="input-group">
+        <label>💬 Comentarios adicionales</label>
+        <textarea id="comments" placeholder="Cuéntanos algo más..."></textarea>
+      </div>
+
+      <!-- Botones y feedback en vivo -->
+      <div class="actions">
+        <button type="submit" id="submitBtn">✅ Enviar formulario</button>
+        <button type="button" id="resetBtn" class="btn-reset">⟳ Limpiar todo</button>
+      </div>
+
+      <!-- Panel de resumen dinámico interactivo -->
+      <div class="live-feedback" id="livePreview">
+        ⚡ Vista previa en tiempo real: completa los campos para ver un resumen interactivo.
+      </div>
+    </form>
+  </div>
+</div>
+<div id="toastMessage" class="toast-msg">✨ Mensaje</div>
+
+<script>
+  (function() {
+    // ---- elementos DOM ----
+    const form = document.getElementById('dynamicForm');
+    const fullName = document.getElementById('fullName');
+    const email = document.getElementById('email');
+    const phone = document.getElementById('phone');
+    const age = document.getElementById('age');
+    const country = document.getElementById('country');
+    const satisfactionRange = document.getElementById('satisfaction');
+    const satisfactionSpan = document.getElementById('satisfactionValue');
+    const interestsCheckboxes = document.querySelectorAll('#interestsGroup input[type="checkbox"]');
+    const contactRadios = document.querySelectorAll('input[name="contactMethod"]');
+    const frequency = document.getElementById('frequency');
+    const comments = document.getElementById('comments');
+
+    // elementos error
+    const nameError = document.getElementById('nameError');
+    const emailError = document.getElementById('emailError');
+    const ageError = document.getElementById('ageError');
+    const countryError = document.getElementById('countryError');
+    const interestsError = document.getElementById('interestsError');
+
+    const livePreviewDiv = document.getElementById('livePreview');
+    const toast = document.getElementById('toastMessage');
+
+    // funciones auxiliares
+    function showToast(msg, isError = false) {
+      toast.textContent = msg;
+      toast.style.backgroundColor = isError ? '#b91c1c' : '#1e2a3e';
+      toast.style.opacity = '1';
+      setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 2800);
+    }
+
+    // validación en tiempo real (campo por campo + resumen)
+    function validateName() {
+      const val = fullName.value.trim();
+      if (val === "") {
+        nameError.innerText = "El nombre es obligatorio.";
+        fullName.classList.add('error');
+        return false;
+      } else if (val.length < 3) {
+        nameError.innerText = "Mínimo 3 caracteres.";
+        fullName.classList.add('error');
+        return false;
+      } else {
+        nameError.innerText = "";
+        fullName.classList.remove('error');
+        return true;
+      }
+    }
+
+    function validateEmail() {
+      const val = email.value.trim();
+      const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+      if (val === "") {
+        emailError.innerText = "El correo es requerido.";
+        email.classList.add('error');
+        return false;
+      } else if (!emailRegex.test(val)) {
+        emailError.innerText = "Formato inválido (ej: nombre@dominio.com).";
+        email.classList.add('error');
+        return false;
+      } else {
+        emailError.innerText = "";
+        email.classList.remove('error');
+        return true;
+      }
+    }
+
+    function validateAge() {
+      const val = parseInt(age.value, 10);
+      if (age.value === "") {
+        ageError.innerText = "Ingresa tu edad.";
+        age.classList.add('error');
+        return false;
+      } else if (isNaN(val) || val < 18 || val > 99) {
+        ageError.innerText = "Edad debe estar entre 18 y 99 años.";
+        age.classList.add('error');
+        return false;
+      } else {
+        ageError.innerText = "";
+        age.classList.remove('error');
+        return true;
+      }
+    }
+
+    function validateCountry() {
+      const val = country.value;
+      if (val === "") {
+        countryError.innerText = "Selecciona un país.";
+        country.classList.add('error');
+        return false;
+      } else {
+        countryError.innerText = "";
+        country.classList.remove('error');
+        return true;
+      }
+    }
+
+    function validateInterests() {
+      let checked = false;
+      for (let cb of interestsCheckboxes) {
+        if (cb.checked) { checked = true; break; }
+      }
+      if (!checked) {
+        interestsError.innerText = "Selecciona al menos un interés.";
+        return false;
+      } else {
+        interestsError.innerText = "";
+        return true;
+      }
+    }
+
+    // Validación general para envío
+    function isFormValid() {
+      const validName = validateName();
+      const validEmail = validateEmail();
+      const validAge = validateAge();
+      const validCountry = validateCountry();
+      const validInterests = validateInterests();
+      return validName && validEmail && validAge && validCountry && validInterests;
+    }
+
+    // Obtener intereses seleccionados
+    function getSelectedInterests() {
+      let selected = [];
+      interestsCheckboxes.forEach(cb => {
+        if (cb.checked) selected.push(cb.value);
+      });
+      return selected;
+    }
+
+    // Método de contacto seleccionado
+    function getSelectedContactMethod() {
+      let selected = "ninguno";
+      for (let radio of contactRadios) {
+        if (radio.checked) {
+          selected = radio.value;
+          break;
+        }
+      }
+      return selected;
+    }
+
+    // Actualizar preview en vivo (cada vez que se modifique cualquier campo)
+    function updateLivePreview() {
+      const nameVal = fullName.value.trim() || "(sin nombre)";
+      const emailVal = email.value.trim() || "(sin email)";
+      const ageVal = age.value || "?";
+      const countryText = country.options[country.selectedIndex]?.text || "No especificado";
+      const satisfactionVal = satisfactionRange.value + "%";
+      const interestsArr = getSelectedInterests();
+      const interestsDisplay = interestsArr.length ? interestsArr.join(", ") : "❌ Ninguno seleccionado";
+      const contactMethodMap = {
+        email: "📧 Email", whatsapp: "💬 WhatsApp", llamada: "📞 Llamada", ninguno: "🔕 Sin contacto"
+      };
+      const contactSelected = getSelectedContactMethod();
+      const contactDisplay = contactMethodMap[contactSelected] || contactSelected;
+      const freqDisplay = frequency.options[frequency.selectedIndex]?.text || "Semanal";
+      const commentsPreview = comments.value.trim() ? `"${comments.value.trim().substring(0, 50)}${comments.value.length > 50 ? '…' : ''}"` : "Sin comentarios";
+
+      livePreviewDiv.innerHTML = `
+        <strong>🔍 Resumen interactivo</strong><br>
+        🧑 <strong>Nombre:</strong> ${escapeHtml(nameVal)} &nbsp;|&nbsp;
+        📧 <strong>Email:</strong> ${escapeHtml(emailVal)}<br>
+        🎂 <strong>Edad:</strong> ${escapeHtml(ageVal)} &nbsp;|&nbsp;
+        🌍 <strong>País:</strong> ${escapeHtml(countryText)} &nbsp;|&nbsp;
+        😊 <strong>Satisfacción:</strong> ${satisfactionVal}<br>
+        💡 <strong>Intereses:</strong> ${escapeHtml(interestsDisplay)} &nbsp;|&nbsp;
+        📞 <strong>Contacto pref.:</strong> ${escapeHtml(contactDisplay)}<br>
+        ⏱️ <strong>Frecuencia:</strong> ${escapeHtml(freqDisplay)} &nbsp;|&nbsp;
+        💬 <strong>Comentarios:</strong> ${escapeHtml(commentsPreview)}
+      `;
+    }
+
+    // simple escape para XSS
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+        return c;
+      });
+    }
+
+    // Eventos input + change para validaciones y preview
+    function bindValidationEvents() {
+      fullName.addEventListener('input', () => { validateName(); updateLivePreview(); });
+      email.addEventListener('input', () => { validateEmail(); updateLivePreview(); });
+      age.addEventListener('input', () => { validateAge(); updateLivePreview(); });
+      country.addEventListener('change', () => { validateCountry(); updateLivePreview(); });
+      satisfactionRange.addEventListener('input', () => {
+        satisfactionSpan.innerText = satisfactionRange.value + "%";
+        updateLivePreview();
+      });
+      interestsCheckboxes.forEach(cb => cb.addEventListener('change', () => { validateInterests(); updateLivePreview(); }));
+      contactRadios.forEach(radio => radio.addEventListener('change', () => updateLivePreview()));
+      frequency.addEventListener('change', () => updateLivePreview());
+      comments.addEventListener('input', () => updateLivePreview());
+      phone.addEventListener('input', () => updateLivePreview()); // opcional
+    }
+
+    // Función para reset completo del formulario
+    function resetForm() {
+      form.reset();
+      // valores por defecto específicos
+      satisfactionRange.value = "72";
+      satisfactionSpan.innerText = "72%";
+      // dejar radio ninguno como predeterminado? mejor reset natural: form.reset() ya limpia radios
+      // pero reset no limpia validaciones custom, ni el rango ya lo seteamos.
+      // adicionalmente, si había radio seleccionado ninguno, form.reset deja sin check? mejor forzar "ninguno"
+      let noneRadio = document.querySelector('input[name="contactMethod"][value="ninguno"]');
+      if (noneRadio) noneRadio.checked = true;
+      // limpiar errores visuales y clases
+      document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+      nameError.innerText = "";
+      emailError.innerText = "";
+      ageError.innerText = "";
+      countryError.innerText = "";
+      interestsError.innerText = "";
+      // re-ejecutar validaciones limpias
+      validateName(); validateEmail(); validateAge(); validateCountry(); validateInterests();
+      updateLivePreview();
+      showToast("🧹 Todos los campos han sido restablecidos", false);
+    }
+
+    // Envío del formulario
+    function handleSubmit(e) {
+      e.preventDefault();
+      // Validar todos los campos críticos
+      const valid = isFormValid();
+      if (!valid) {
+        showToast("❌ Revisa los campos marcados en rojo", true);
+        return;
+      }
+      // Recoger datos para mostrar en un mensaje interactivo
+      const nameVal = fullName.value.trim();
+      const emailVal = email.value.trim();
+      const ageVal = age.value;
+      const countryText = country.options[country.selectedIndex]?.text;
+      const satisfactionVal = satisfactionRange.value;
+      const interestsArr = getSelectedInterests();
+      const contactMethod = getSelectedContactMethod();
+      const frequencyVal = frequency.options[frequency.selectedIndex]?.text;
+      const commentsVal = comments.value.trim() || "Sin comentarios";
+      const phoneVal = phone.value.trim() || "No especificado";
+
+      // mensaje de éxito con resumen bonito
+      const summaryMsg = `✨ ¡Formulario enviado con éxito! ✨\n\n👤 ${nameVal}\n📧 ${emailVal}\n📞 Tel: ${phoneVal}\n🎂 Edad: ${ageVal}\n🌍 País: ${countryText}\n😊 Satisfacción: ${satisfactionVal}%\n💡 Intereses: ${interestsArr.join(", ") || "Ninguno"}\n📬 Preferencia contacto: ${contactMethod}\n⏱️ Frecuencia: ${frequencyVal}\n💬 Comentarios: ${commentsVal}`;
+      
+      // Mostrar notificación elegante y también en preview (opcional)
+      showToast("✅ Enviado correctamente. Revisa consola / preview", false);
+      alert(summaryMsg);   // alert clásico para demostración pero no molesto
+      console.log("Datos enviados:", {
+        nombre: nameVal, email: emailVal, telefono: phoneVal, edad: ageVal, pais: countryText,
+        satisfaccion: satisfactionVal, intereses: interestsArr, contacto: contactMethod,
+        frecuencia: frequencyVal, comentarios: commentsVal
+      });
+      // Opcionalmente se podría resetear pero no obligatorio, dejamos decisión al usuario.
+    }
+
+    // Inicializar todos los eventos y preview
+    function init() {
+      bindValidationEvents();
+      // añadir submit
+      form.addEventListener('submit', handleSubmit);
+      document.getElementById('resetBtn').addEventListener('click', resetForm);
+      // validaciones iniciales para estado limpio
+      validateName(); validateEmail(); validateAge(); validateCountry(); validateInterests();
+      updateLivePreview();
+      // rango inicial
+      satisfactionSpan.innerText = satisfactionRange.value + "%";
+      // Por defecto radio "ninguno" marcado si no hay ninguno (garantía)
+      let anyRadioChecked = Array.from(contactRadios).some(r => r.checked);
+      if (!anyRadioChecked) {
+        let defaultRadio = document.querySelector('input[name="contactMethod"][value="ninguno"]');
+        if (defaultRadio) defaultRadio.checked = true;
+      }
+      updateLivePreview();
+    }
+    init();
+  })();
+</script>
 </body>
 </html>
